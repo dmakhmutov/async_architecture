@@ -1,0 +1,11 @@
+h1 Edit task
+
+= form_for @task do |form|
+  p
+    = form.label :description
+    = form.text_area :description
+  p
+    = form.collection_select :assignee_id, Account.all, :id, :email
+
+  = form.submit
+  = link_to "Back", tasks_path

@@ -1,0 +1,27 @@
+h1 Tasks
+
+= link_to "New task", new_task_path
+|  |
+- if current_account.admin?
+  = link_to "Reassign tasks", reassign_path, method: :post
+  |  |
+= link_to "My tasks", self_tasks_path
+
+table
+  thead
+    tr
+      th PublicId
+      th Description
+      th Assignee
+      th Status
+      th
+  tbody
+    - @tasks.each do |task|
+      tr
+        td = task.public_id
+        td = task.description
+        td = task.assignee.email
+        td = task.status
+        td
+          - if current_account.admin?
+            = link_to "Edit", edit_task_path(task)

@@ -11,6 +11,10 @@
   </head>
 
   <body>
+    <% if current_account %>
+      <%= link_to "Sign out", sessions_path, method: :delete %>
+      <hr />
+    <% end %>
     <%= yield %>
   </body>
 </html>
