@@ -6,7 +6,7 @@ class Account < ApplicationRecord
 
   ROLES = %w(admin dev).freeze
 
-  enum role: ROLES.zip(ROLES).to_h
+  enum role: ROLES.zip(ROLES).to_h, _default: "admin"
 
   has_many :access_grants,
            class_name: 'Doorkeeper::AccessGrant',

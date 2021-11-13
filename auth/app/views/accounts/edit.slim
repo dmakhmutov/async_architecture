@@ -1,0 +1,8 @@
+h1 Edit account
+
+= form_for @account do |form|
+  p
+    = form.select :role, Account.roles.map { |key, value| [key.humanize, key] }
+
+  = form.submit
+  = link_to "Back", accounts_path
