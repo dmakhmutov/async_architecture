@@ -30,11 +30,11 @@ class KarafkaApp < Karafka::App
   # for more details on benefits and downsides of the code reload in the
   # development mode
   #
-  # Karafka.monitor.subscribe(
-  #   Karafka::CodeReloader.new(
-  #     *Rails.application.reloaders
-  #   )
-  # )
+  Karafka.monitor.subscribe(
+    Karafka::CodeReloader.new(
+      *Rails.application.reloaders
+    )
+  )
 
   consumer_groups.draw do
     topic "accounts-stream" do
