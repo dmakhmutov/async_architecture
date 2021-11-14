@@ -1,0 +1,23 @@
+- if current_account
+  = link_to "Sign out", destroy_account_session_path, method: :delete
+- else
+  = link_to "Sign in", new_account_session_path
+
+hr
+
+h1 Transactions
+
+table
+  thead
+    tr
+      th Title
+      th Status
+      th Amount
+      th
+  tbody
+    - @transactions.each do |transaction|
+      tr
+        td = transaction.title
+        td = transaction.status.humanize
+        td = transaction.amount
+

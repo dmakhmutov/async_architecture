@@ -9,6 +9,9 @@ class CreateTasks < ActiveRecord::Migration[6.1]
       t.string :status
       t.text :description
 
+      t.integer :cost, null: false, default: 0
+      t.integer :reward, null: false, default: 0
+
       t.timestamps
     end
   end

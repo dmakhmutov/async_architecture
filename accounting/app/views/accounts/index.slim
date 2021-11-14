@@ -1,0 +1,28 @@
+- if current_account
+  = link_to "Sign out", destroy_account_session_path, method: :delete
+- else
+  = link_to "Sign in", new_account_session_path
+
+hr
+  h2 Business earning money:
+  = @earning_money
+hr
+
+h1 Accounts
+
+table
+  thead
+    tr
+      th PublicId
+      th Email
+      th Balance
+      th
+  tbody
+    - @accounts.each do |account|
+      tr
+        td = account.public_id
+        td = account.email
+        td = account.balance
+        td
+          - if current_account == account
+            = link_to "Transaction logs", account_transactions_path(account)
