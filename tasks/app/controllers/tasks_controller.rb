@@ -19,10 +19,7 @@ class TasksController < ApplicationController
 
     event = {
       event_name: 'TaskAssigned',
-      data: {
-        public_id: task.public_id,
-        assignee_id: task.assignee_id,
-      }
+      data: { public_id: task.public_id, assignee_id: task.assignee_id }
     }
     WaterDrop::SyncProducer.call(event.to_json, topic: 'tasks')
 

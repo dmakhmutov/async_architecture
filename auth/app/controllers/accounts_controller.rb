@@ -8,7 +8,6 @@ class AccountsController < ApplicationController
   end
 
   def update
-    binding.pry
     account = Account.find(params[:id])
     account.update!(account_params)
 

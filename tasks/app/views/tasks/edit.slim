@@ -4,6 +4,7 @@ h1 Edit task
   p
     = form.label :description
     = form.text_area :description
+    = form.select :status, collection: Task.statuses.keys
   p
     = form.collection_select :assignee_id, Account.all, :id, :email
 
