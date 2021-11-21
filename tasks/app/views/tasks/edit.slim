@@ -5,8 +5,6 @@ h1 Edit task
     = form.label :description
     = form.text_area :description
     = form.select :status, collection: Task.statuses.keys
-  p
-    = form.collection_select :assignee_id, Account.all, :id, :email
 
   = form.submit
   = link_to "Back", tasks_path

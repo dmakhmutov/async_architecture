@@ -41,12 +41,12 @@ class KarafkaApp < Karafka::App
       consumer AccountsStreamConsumer
     end
 
-    topic "tasks" do
-      consumer TasksConsumer
-    end
-
     topic "tasks-stream" do
       consumer TasksStreamConsumer
+    end
+
+    topic "tasks" do
+      consumer TasksConsumer
     end
   end
 end

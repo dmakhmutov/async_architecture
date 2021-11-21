@@ -1,7 +1,7 @@
 class Transaction < ApplicationRecord
   STATUSES = %w(pending completed).freeze
 
-  belongs_to :task
+  belongs_to :task, optional: true
   belongs_to :account
 
   enum status: STATUSES.zip(STATUSES).to_h, _default: "pending"

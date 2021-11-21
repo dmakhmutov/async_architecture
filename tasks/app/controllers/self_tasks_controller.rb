@@ -17,7 +17,7 @@ class SelfTasksController < ApplicationController
     }
 
     result = SchemaRegistry.validate_event(event, 'tasks.completed', version: 1)
-    result.success? ? WaterDrop::SyncProducer.call(event.to_json, topic: 'tasks') : raise result.failure
+    result.success? ? WaterDrop::SyncProducer.call(event.to_json, topic: 'tasks') : raise(result.failure)
 
     event = {
       event_id: SecureRandom.uuid,
@@ -29,7 +29,7 @@ class SelfTasksController < ApplicationController
     }
 
     result = SchemaRegistry.validate_event(event, 'tasks.updated', version: 1)
-    result.success? ? WaterDrop::SyncProducer.call(event.to_json, topic: 'tasks-stream') : raise result.failure
+    result.success? ? WaterDrop::SyncProducer.call(event.to_json, topic: 'tasks-stream') : raise(result.failure)
 
     redirect_to "/"
   end

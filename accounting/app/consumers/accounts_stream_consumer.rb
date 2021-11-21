@@ -6,7 +6,7 @@ class AccountsStreamConsumer < ApplicationConsumer
 
       case payload["event_name"]
       when "AccountCreated"
-        Account.create!(email: data["email"], public_id: data["public_id"], role: data["role"])
+        Account.create!(email: data["email"], public_id: data["public_id"], role: data["role"], balance: 0)
       when "AccountUpdated"
         Account.find_by(public_id: data["public_id"]).update!(role: data["role"])
       end

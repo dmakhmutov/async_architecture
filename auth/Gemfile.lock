@@ -264,7 +264,6 @@ DEPENDENCIES
   slim
   spring
   sqlite3 (~> 1.4)
-  tzinfo-data
   waterdrop
   webpacker (~> 5.0)
 
