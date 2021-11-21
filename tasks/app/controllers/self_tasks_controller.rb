@@ -7,24 +7,29 @@ class SelfTasksController < ApplicationController
     task = Task.find(params[:id])
     task.update!(status: :done)
 
-
     event = {
+      event_id: SecureRandom.uuid,
+      event_version: "1",
       event_name: 'TaskCompleted',
-      data: {
-        public_id: task.public_id,
-        status: task.status,
-      }
+      event_time: Time.now.to_s,
+      producer: 'tasks_service',
+      data: { public_id: task.public_id, status: task.status }
     }
-    WaterDrop::SyncProducer.call(event.to_json, topic: 'tasks')
+
+    result = SchemaRegistry.validate_event(event, 'tasks.completed', version: 1)
+    result.success? ? WaterDrop::SyncProducer.call(event.to_json, topic: 'tasks') : raise result.failure
 
     event = {
+      event_id: SecureRandom.uuid,
+      event_version: "1",
       event_name: 'TaskUpdated',
-      data: {
-        public_id: task.public_id,
-        status: task.status,
-      }
+      event_time: Time.now.to_s,
+      producer: 'tasks_service',
+      data: { public_id: task.public_id, status: task.status }
     }
-    WaterDrop::SyncProducer.call(event.to_json, topic: 'tasks-stream')
+
+    result = SchemaRegistry.validate_event(event, 'tasks.updated', version: 1)
+    result.success? ? WaterDrop::SyncProducer.call(event.to_json, topic: 'tasks-stream') : raise result.failure
 
     redirect_to "/"
   end

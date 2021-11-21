@@ -12,10 +12,21 @@ class AccountsController < ApplicationController
     account.update!(account_params)
 
     event = {
+      event_id: SecureRandom.uuid,
+      event_version: "1",
       event_name: 'AccountUpdated',
-      data: { public_id: account.public_id, role: account.role }
+      event_time: Time.now.to_s,
+      producer: 'auth_service',
+      data: { public_id: resource.public_id, role: resource.role }
     }
-    KafkaProducer.produce_sync(topic: 'accounts-stream', payload: event.to_json)
+
+    result = SchemaRegistry.validate_event(event, 'accounts.updated', version: 1)
+
+    if result.success?
+      KafkaProducer.produce_sync(topic: 'accounts-stream', payload: event.to_json)
+    else
+      raise result.failure
+    end
 
     redirect_to "/"
   end

@@ -19,6 +19,8 @@ gem "slim"
 gem "karafka"
 gem "waterdrop"
 
+gem "schema_registry", path: "../event_schema_registry/ruby/"
+
 group :development, :test do
   gem 'pry'
 end

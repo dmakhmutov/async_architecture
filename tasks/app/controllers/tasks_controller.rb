@@ -10,18 +10,31 @@ class TasksController < ApplicationController
     task = Task.create!(task_params.merge(creator_id: current_account.id))
 
     event = {
-      event_name: 'TaskCreated',
+      event_id: SecureRandom.uuid,
+      event_version: "1",
+      event_name: 'TaskAdded',
+      event_time: Time.now.to_s,
+      producer: 'tasks_service',
       data: {
-        public_id: task.public_id,
-      }.merge(task.slice(:assignee_id, :status, :creator_id, :description))
+        public_id: task.public_id, assignee_id: task.assignee.public_id,
+        creator_id: current_account.public_id
+      }.merge(task.slice(:status, :description))
     }
-    WaterDrop::SyncProducer.call(event.to_json, topic: 'tasks-stream')
+
+    result = SchemaRegistry.validate_event(event, 'tasks.added', version: 1)
+    result.success? ? WaterDrop::SyncProducer.call(event.to_json, topic: 'tasks-stream') : raise result.failure
 
     event = {
+      event_id: SecureRandom.uuid,
+      event_version: "1",
       event_name: 'TaskAssigned',
-      data: { public_id: task.public_id, assignee_id: task.assignee_id }
+      event_time: Time.now.to_s,
+      producer: 'tasks_service',
+      data: { public_id: task.public_id, assignee_id: task.assignee.public_id }
     }
-    WaterDrop::SyncProducer.call(event.to_json, topic: 'tasks')
+
+    result = SchemaRegistry.validate_event(event, 'tasks.assigned', version: 1)
+    result.success? ? WaterDrop::SyncProducer.call(event.to_json, topic: 'tasks') : raise result.failure
 
     redirect_to tasks_path
   end
