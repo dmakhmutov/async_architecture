@@ -18,6 +18,20 @@ bundle exec rails s -p 3001
 bundle exec karafka server
 ```
 
+Accounting service:
+```
+cd accounting
+bundle exec rails s -p 3002
+bundle exec karafka server
+```
+
+Analytics service:
+```
+cd analytics
+bundle exec rails s -p 3003
+bundle exec karafka server
+```
+
 hints
 ```
 localhost:3000/oauth/applications - oauth app managment
