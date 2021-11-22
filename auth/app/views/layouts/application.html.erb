@@ -3,6 +3,7 @@
   <head>
     <title>Auth</title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/water.css@2/out/water.css">
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
 
@@ -11,6 +12,17 @@
   </head>
 
   <body>
+  <% if current_account %>
+    <%= link_to "Sign out", destroy_account_session_path, method: :delete %>
+    <%= link_to "Accounts", "http://localhost:3000/accounts" %>
+    <%= link_to "Tasks", "http://localhost:3001/tasks" %>
+    <%= link_to "Accounting", "http://localhost:3002/accounts" %>
+    <%= link_to "Analytics", "http://localhost:3003" %>
+    <hr />
+  <% else %>
+    <%= link_to "Sign in", new_account_session_path %>
+  <% end %>
+
     <%= yield %>
   </body>
 </html>

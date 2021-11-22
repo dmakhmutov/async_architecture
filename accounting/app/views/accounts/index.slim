@@ -1,11 +1,7 @@
-- if current_account
-  = link_to "Sign out", destroy_account_session_path, method: :delete
-- else
-  = link_to "Sign in", new_account_session_path
+h2 Business earned money: #{@earning_money}
 
-hr
-  h2 Business earning money:
-  = @earning_money
+= button_to "Complete billing day and pay money", pay_money_path, method: :post
+
 hr
 
 h1 Accounts
@@ -24,5 +20,5 @@ table
         td = account.email
         td = account.balance
         td
-          - if current_account == account
+          - if current_account.admin? || current_account.eq?(account)
             = link_to "Transaction logs", account_transactions_path(account)

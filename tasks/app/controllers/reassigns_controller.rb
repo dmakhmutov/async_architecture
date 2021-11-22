@@ -16,7 +16,7 @@ class ReassignsController < ApplicationController
 
       event = {
         event_name: 'TaskUpdated',
-        data: { public_id: task.public_id, assignee_id: account_id.second }
+        data: { public_id: task.public_id, assignee_id: account_id.second, status: task.status }
       }
       WaterDrop::SyncProducer.call(event.to_json, topic: 'tasks-stream')
     end

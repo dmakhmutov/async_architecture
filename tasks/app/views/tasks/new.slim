@@ -5,7 +5,7 @@ h1 New task
     = form.label :description
     = form.text_area :description
   p
-    = form.collection_select :assignee_id, Account.all, :id, :email
+    = form.collection_select :assignee_id, Account.dev, :id, :email
 
   = form.submit
   = link_to "Back", tasks_path

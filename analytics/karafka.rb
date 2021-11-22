@@ -41,18 +41,13 @@ class KarafkaApp < Karafka::App
       consumer AccountsStreamConsumer
     end
 
-    # topic :example do
-    #   consumer ExampleConsumer
-    # end
-    # consumer_group :bigger_group do
-    #   topic :test do
-    #     consumer TestConsumer
-    #   end
-    #
-    #   topic :test2 do
-    #     consumer Test2Consumer
-    #   end
-    # end
+    topic "tasks-stream" do
+      consumer TasksStreamConsumer
+    end
+
+    topic "transactions-stream" do
+      consumer TransactionStreamConsumer
+    end
   end
 end
 
